@@ -5,6 +5,7 @@ from datetime import datetime
 Animal class initializes the name, color and birthday
 Use a method to set the most_common animal species to the 
         respective species' class
+Keeps an array of available species have been instantiated from Animal
 '''
 class Animal:
 
@@ -38,9 +39,10 @@ class Animal:
 '''
 Species concrete classes keep track of their count, their oldest animal,
 and makes its own sound
+Each species adds itself to the Animal available_species class object
 '''
 class Dog(Animal):
-    
+
     count = 0
     oldest = None
 
@@ -67,7 +69,7 @@ class Dog(Animal):
     @classmethod
     def make_sound(cls):
         oldest = cls.oldest
-        return f"{oldest.name}, the {oldest.color} dog says bark"
+        return f"{oldest.name}, the {oldest.color} dog says bark!"
 
 
 class Cat(Animal):
@@ -97,7 +99,7 @@ class Cat(Animal):
     @classmethod
     def make_sound(cls):
         oldest = cls.oldest
-        return f"{oldest.name}, the {oldest.color} cat says meow"
+        return f"{oldest.name}, the {oldest.color} cat says meow!"
 
 
 class Sheep(Animal):
@@ -127,26 +129,45 @@ class Sheep(Animal):
     @classmethod
     def make_sound(cls):
         oldest = cls.oldest
-        return f"{oldest.name}, the {oldest.color} sheep says baa"
+        return f"{oldest.name}, the {oldest.color} sheep says baa!"
 
+'''
+add animals loops through a prompt asking for the animal input until the user specifies not to
+'''
+def add_animals():
 
-def add_animals(animals):
+    active = True
+    while active:
+        animal = input("Please input your animal: ")
+        animal_arr = animal.split(",")
+        name = animal_arr[0]
+        color = animal_arr[1]
+        species = animal_arr[2]
+        animal_birthday = animal_arr[3]
 
-    if len(animals) == 0:
-        print("Please input at least one valid animal")
+        if species.lower() == "dog":
+            species = Dog
+        elif species.lower() == "cat":
+            species = Cat
+        elif species.lower() == "sheep":
+            species = Sheep
+        else:
+            print("Enter a valid species")
+            active = False
 
-    for animal in animals:        
-        name = animal.get("name", None)
-        color = animal.get("color", None)
-        species = animal.get("species", None)
-        animal_birthday = animal.get("birthday", None)
         try:
-            birthday = datetime.strptime(animal_birthday, "%m, %d, %Y")
+            birthday = datetime.strptime(animal_birthday, "%m/%d/%Y")
         except ValueError:
             print(f"Please check birthday format for {name}")
             continue
-
+            
         species(name=name, color=color, birthday=birthday)
+
+        cont = input("Continue with more animals? (Y/N): ")
+        if cont.lower() == "y":
+            continue
+        else:
+            active = False
   
     most_common = Animal.set_most_common()
     print(most_common.make_sound())
