@@ -36,8 +36,10 @@ Ex. `Happy,blue,cat,08/15/2016`
 The add_animals() function is the driving function for adding animal objects. The function, add_animals, continues a loop asking the user to input the string which represents the animal they wish to add and wether or not they would like to continue. The function prints the oldest animal of the most common species, "NAME, the COLOR SPECIES says SOUND!".
 
 *Note: An invalid birthday will cause the animal to not be created.*
-      *An invalid species will cause the animal to not be created*
-      *Any input other than Y will be considered as N*
+
+ *An invalid species will cause the animal to not be created.*
+ 
+ *Any input other than Y will be considered as N when asked to continue*
       
 
 Ex.
