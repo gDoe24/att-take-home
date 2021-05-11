@@ -1,45 +1,61 @@
-
+from datetime import datetime
 
 class Animal:
     
-    dogs = 0
-    cats = 0
-    sheeps = 0
-
-    @classmethod
-    def _update_amount(cls, species):
-
-        if species == "sheep":
-            cls.sheeps += 1
-        elif species == "dog":
-            cls.dogs += 1
-        elif species == "cat":
-            cls.cats += 1
-
-
-    def __init__(self, name, color, species, birthday):
+    def __init__(self, name, color, birthday):
+        self.birthday = datetime.strptime(birthday, "%m, %d, %Y")
         self.name = name
         self.color = color
-        self.species = species
-        self.birthday = birthday
-        Animal._update_amount(species)
-    
 
-    pass
+    
+    @classmethod
+    def set_most_common(cls):
+        cls.available_species = {
+            Dog
+        }
+        cls.most_common = None
+        
+        for species in cls.available_species:
+            if cls.most_common is None or species.get_count() > cls.most_common.get_count():
+                cls.most_common = species
+        return cls.most_common
+        
+    @classmethod
+    def reset_animals(cls):
+        for species in cls.available_species:
+            species.reset()
+        
 
 class Dog(Animal):
+
+    count = 0
+    oldest = None
     
-    def make_sound(self, name, color):
-        return f"{name} the {color} dog says bark"
-
-class Cat(Animal):
-
-    def make_sound(self, name, color):
-        return f"{name} the {color} cat says meow"
-
-class Sheep(Animal):
-
-    def make_sound(self, name, color):
-        return f"{name} the {color} sheep says baa"
+    def __init__(self, name, color, birthday):
+        super().__init__(name, color, birthday)
+        if not birthday:
+            raise Exception()
+        else:
+            if Dog.oldest is None or self.birthday < Dog.oldest.birthday:
+                Dog.oldest = self
+            Dog.count += 1
+    
+    @classmethod
+    def get_oldest(cls):
+        return cls.oldest
+    
+    @classmethod
+    def get_count(cls):
+        return cls.count
+    
+    @classmethod
+    def make_sound(cls):
+        oldest = cls.oldest
+        return f"{oldest.name} the {oldest.color} dog says bark"
+    
+    @classmethod
+    def reset(cls):
+        cls.count = 0
+        cls.oldest = None
 
 
