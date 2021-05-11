@@ -153,7 +153,7 @@ def add_animals():
             species = Sheep
         else:
             print("Enter a valid species")
-            active = False
+            continue
 
         try:
             birthday = datetime.strptime(animal_birthday, "%m/%d/%Y")
