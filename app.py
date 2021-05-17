@@ -8,8 +8,8 @@ Use a method to set the most_common animal species to the
 '''
 class Animal:
 
-    available_species = []
-    total = 0
+    _available_species = []
+    _total = 0
 
     def __init__(self, name, color, birthday):
         self.birthday = birthday
@@ -18,7 +18,6 @@ class Animal:
 
     @classmethod
     def set_most_common(cls):
-
         cls.most_common = None
 
         for species in cls.available_species:
@@ -69,6 +68,8 @@ class Dog(Animal):
         oldest = cls.oldest
         return f"{oldest.name}, the {oldest.color} dog says bark"
 
+    def __str__(self):
+        return f"{self.name}, the {self.color} dog says bark"
 
 class Cat(Animal):
 
