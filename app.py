@@ -1,4 +1,3 @@
-  
 from datetime import datetime
 
 '''
@@ -34,6 +33,27 @@ class Animal:
     @classmethod
     def set_available_species(cls, species):
         cls.available_species.append(species)
+
+    @staticmethod
+    def format_birthday(birthday):
+        try:
+            birthday = datetime.strptime(birthday, "%m/%d/%Y")
+            return birthday
+        except ValueError:
+            raise ValueError
+
+    @staticmethod
+    def get_species(species):
+      
+        if species.lower() == "dog":
+            species = Dog
+        elif species.lower() == "cat":
+            species = Cat
+        elif species.lower() == "sheep":
+            species = Sheep
+        else:
+            raise TypeError
+        return species
 
 
 '''
@@ -145,18 +165,14 @@ def add_animals():
         species = animal_arr[2]
         animal_birthday = animal_arr[3]
 
-        if species.lower() == "dog":
-            species = Dog
-        elif species.lower() == "cat":
-            species = Cat
-        elif species.lower() == "sheep":
-            species = Sheep
-        else:
+        try:
+            species = Animal.get_species(species)
+        except TypeError:
             print("Enter a valid species")
             continue
 
         try:
-            birthday = datetime.strptime(animal_birthday, "%m/%d/%Y")
+            birthday = Animal.format_birthday(animal_birthday)
         except ValueError:
             print(f"Please check birthday format for {name}")
             continue
