@@ -2,10 +2,14 @@ from datetime import datetime
 
 '''
 Animal class initializes the name, color and birthday
-Use a method to set the most_common animal species to the 
+Use a method to set the most_common animal species to the
         respective species' class
 Keeps an array of available species have been instantiated from Animal
+Holds static methods for formatting bithday and turning species from string
+    to class object
 '''
+
+
 class Animal:
 
     available_species = []
@@ -29,7 +33,7 @@ class Animal:
                 cls.most_common = species
 
         return cls.most_common
-    
+
     @classmethod
     def set_available_species(cls, species):
         cls.available_species.append(species)
@@ -44,7 +48,7 @@ class Animal:
 
     @staticmethod
     def get_species(species):
-      
+
         if species.lower() == "dog":
             species = Dog
         elif species.lower() == "cat":
@@ -58,9 +62,11 @@ class Animal:
 
 '''
 Species concrete classes keep track of their count, their oldest animal,
-and makes its own sound
+    and makes its own sound
 Each species adds itself to the Animal available_species class object
 '''
+
+
 class Dog(Animal):
 
     count = 0
@@ -68,7 +74,7 @@ class Dog(Animal):
 
     def __init__(self, name, color, birthday):
         super().__init__(name, color, birthday)
-        
+
         if Dog.oldest is None or self.birthday < Dog.oldest.birthday:
             Dog.oldest = self
 
@@ -99,12 +105,12 @@ class Cat(Animal):
 
     def __init__(self, name, color, birthday):
         super().__init__(name, color, birthday)
-        
+
         if Cat.oldest is None or self.birthday < Cat.oldest.birthday:
             Cat.oldest = self
         if Cat not in Animal.available_species:
             Animal.set_available_species(Cat)
-    
+
         Cat.count += 1
         Animal.total += 1
 
@@ -129,7 +135,7 @@ class Sheep(Animal):
 
     def __init__(self, name, color, birthday):
         super().__init__(name, color, birthday)
-        
+
         if Sheep.oldest is None or self.birthday < Sheep.oldest.birthday:
             Sheep.oldest = self
         if Sheep not in Animal.available_species:
@@ -151,9 +157,13 @@ class Sheep(Animal):
         oldest = cls.oldest
         return f"{oldest.name}, the {oldest.color} sheep says baa!"
 
+
 '''
-add animals loops through a prompt asking for the animal input until the user specifies not to
+add animals loops through a prompt asking for the animal input until
+    the user specifies not to
 '''
+
+
 def add_animals():
 
     active = True
@@ -176,7 +186,7 @@ def add_animals():
         except ValueError:
             print(f"Please check birthday format for {name}")
             continue
-            
+
         species(name=name, color=color, birthday=birthday)
 
         cont = input("Continue with more animals? (Y/N): ")
@@ -184,6 +194,6 @@ def add_animals():
             continue
         else:
             active = False
-  
+
     most_common = Animal.set_most_common()
     print(most_common.make_sound())
